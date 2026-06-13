@@ -1,9 +1,12 @@
 // src/screens/LoginScreen.tsx
 import React from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';  
 import ScreenWrapper from '../components/ScreenWrapper';
 import CustomButton from '../components/CustomButton';
 import { supabase } from '../services/supabaseClient';
+
+WebBrowser.maybeCompleteAuthSession();  
 
 const LoginScreen = ({ navigation }: any) => {
 

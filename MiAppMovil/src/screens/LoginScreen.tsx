@@ -1,12 +1,11 @@
-// src/screens/LoginScreen.tsx
 import React from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';  
+import * as WebBrowser from 'expo-web-browser';
 import ScreenWrapper from '../components/ScreenWrapper';
 import CustomButton from '../components/CustomButton';
 import { supabase } from '../services/supabaseClient';
 
-WebBrowser.maybeCompleteAuthSession();  
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }: any) => {
 
@@ -14,13 +13,10 @@ const LoginScreen = ({ navigation }: any) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
     });
-
     if (error) {
       Alert.alert('Error', error.message);
       return;
     }
-
-    // Supabase abre automáticamente el navegador para autenticarse con Google
     console.log('Redirigiendo a Google...', data);
   };
 
@@ -29,17 +25,23 @@ const LoginScreen = ({ navigation }: any) => {
       <View style={styles.container}>
         <Text style={styles.title}>Iniciar sesión</Text>
 
-        {/* Botón SSO Google */}
         <CustomButton
           title="Continuar con Google"
           variant="secondary"
           onPress={handleGoogleLogin}
         />
+
         <CustomButton
-         title="Crear cuenta"
-        variant="tertiary"
-        onPress={() => navigation.navigate('Register')}
-/>
+          title="Entrar"
+          variant="primary"
+          onPress={() => navigation.navigate('MainTabs')}
+        />
+
+        <CustomButton
+          title="Crear cuenta"
+          variant="tertiary"
+          onPress={() => navigation.navigate('Register')}
+        />
 
       </View>
     </ScreenWrapper>

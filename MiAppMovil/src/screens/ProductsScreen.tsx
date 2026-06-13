@@ -11,7 +11,6 @@ import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { supabase } from '../services/supabaseClient';
 
-// Tipo para un producto
 type Product = {
   id: string;
   name: string;
@@ -30,62 +29,38 @@ const ProductsScreen = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // ─── GET Products ───────────────────────────────────────────
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from('products')
       .select('*')
       .order('created_at', { ascending: false });
-
-    if (error) {
-      Alert.alert('Error', error.message);
-      return;
-    }
-
+    if (error) { Alert.alert('Error', error.message); return; }
     if (data) setProducts(data);
   };
 
-  // Carga los productos al montar el componente
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // ─── CREATE Product ─────────────────────────────────────────
   const handleAddProduct = async () => {
     if (!name.trim() || !brand.trim()) {
       Alert.alert('Campos incompletos', 'Nombre y marca son obligatorios.');
       return;
     }
-
     setLoading(true);
-
     const { error } = await supabase
       .from('products')
-      .insert([{
-        name: name.trim(),
-        brand: brand.trim(),
-        category,
-      }])
+      .insert([{ name: name.trim(), brand: brand.trim(), category }])
       .select();
-
     setLoading(false);
-
-    if (error) {
-      Alert.alert('Error', error.message);
-      return;
-    }
-
-    // Limpiar formulario
+    if (error) { Alert.alert('Error', error.message); return; }
     setName('');
     setBrand('');
     setCategory(CATEGORIES[0]);
     setShowForm(false);
-
-    // Recargar lista
     fetchProducts();
   };
 
-  // ─── Render de cada producto ─────────────────────────────────
   const renderProduct = ({ item }: { item: Product }) => (
     <View style={styles.card}>
       <Text style={styles.productName}>{item.name}</Text>
@@ -99,14 +74,12 @@ const ProductsScreen = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Mis Productos</Text>
 
-        {/* Botón para mostrar/ocultar formulario */}
         <CustomButton
           title={showForm ? 'Cancelar' : '+ Agregar Producto'}
           variant="primary"
           onPress={() => setShowForm(!showForm)}
         />
 
-        {/* Formulario de nuevo producto */}
         {showForm && (
           <View style={styles.form}>
             <CustomInput
@@ -114,19 +87,16 @@ const ProductsScreen = () => {
               value={name}
               onChange={setName}
             />
-
             <CustomInput
               placeholder="Marca"
               value={brand}
               onChange={setBrand}
             />
-
             <CustomInput
               placeholder="Categoría"
               value={category}
               onChange={setCategory}
             />
-
             <CustomButton
               title={loading ? 'Guardando...' : 'Guardar Producto'}
               variant="primary"
@@ -135,7 +105,6 @@ const ProductsScreen = () => {
           </View>
         )}
 
-        {/* Lista de productos */}
         {products.length === 0 ? (
           <Text style={styles.empty}>No hay productos aún.</Text>
         ) : (
@@ -150,6 +119,7 @@ const ProductsScreen = () => {
     </ScreenWrapper>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

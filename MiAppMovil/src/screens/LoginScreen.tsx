@@ -32,6 +32,11 @@ const LoginScreen = ({ navigation }: any) => {
           variant="secondary"
           onPress={handleGoogleLogin}
         />
+        <CustomButton
+         title="Crear cuenta"
+        variant="tertiary"
+        onPress={() => navigation.navigate('Register')}
+/>
 
       </View>
     </ScreenWrapper>

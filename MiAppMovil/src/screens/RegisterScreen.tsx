@@ -19,6 +19,7 @@ const RegisterScreen = ({ navigation }: any) => {
       return;
     }
 
+    
     setLoading(true);
 
     // Llamada a Supabase Auth

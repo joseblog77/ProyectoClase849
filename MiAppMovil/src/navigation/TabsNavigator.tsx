@@ -5,25 +5,24 @@ import ProductsScreen from "../screens/ProductsScreen";
 import RoutinesScreen from "../screens/RoutinesScreen";
 import ProfileScreen from "../screens/UserSettings/ProfileScreen";
 import SettingsScreen from "../screens/UserSettings/SettingsScreen";
+import UploadScreen from "../screens/UploadScreen";  // ← AGREGAR
 import { useTheme } from "../contexts/ThemeContext";
 
-//1. declarar tipado para pantallas y sus parametros
 type TabsParamList = {
   Home: undefined;
   Products: undefined;
   Routines: undefined;
   Profile: undefined;
   Settings: undefined;
+  Upload: undefined;  // ← AGREGAR
 };
 
-//2. crear el tabs navigator el cual se va a manejar la navegacion por pestañas
 const Tab = createBottomTabNavigator<TabsParamList>();
 
-//3. utilizar el tab navigator
 export type { TabsParamList };
 
 export default function TabNavigator() {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -32,8 +31,8 @@ export default function TabNavigator() {
           backgroundColor: colors.tabBarBackground,
           borderTopColor: colors.tabBarBackground,
         },
-        headerStyle:{ backgroundColor: colors.headerBackground},
-        headerTintColor: colors.headerText
+        headerStyle: { backgroundColor: colors.headerBackground },
+        headerTintColor: colors.headerText,
       }}
     >
       <Tab.Screen
@@ -64,6 +63,17 @@ export default function TabNavigator() {
           title: "Rutinas",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" size={size} color={color} />
+          ),
+        }}
+      />
+      {/* ← AGREGAR ESTE TAB */}
+      <Tab.Screen
+        name="Upload"
+        component={UploadScreen}
+        options={{
+          title: "Subir",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="cloud-upload" size={size} color={color} />
           ),
         }}
       />

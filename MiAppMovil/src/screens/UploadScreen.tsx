@@ -29,7 +29,7 @@ const UploadScreen = () => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-     mediaTypes: ['images'],
+      mediaTypes: ['images'],
       quality: 0.7,
     });
 
@@ -87,6 +87,11 @@ const UploadScreen = () => {
       }
 
       setResultMessage('¡Subida exitosa!');
+
+      // Limpiar la pantalla después de subir
+      setImageUri(null);
+      setFileUri(null);
+      setFileName(null);
     } catch (error: any) {
       setResultMessage(`Error: ${error.message}`);
     } finally {
